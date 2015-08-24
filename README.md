@@ -1,11 +1,17 @@
 # Locate This View
 
-Locate This View is a Convolutional Neural Network algorithm designed and evaluated to estimate the exact location of a street view image from San Francisco.
-
 # Motivations
 
-Street view photos often contain a lot of information about businesses, propoerties, news, etc. An easy way to detect an image's location is to refer to its geo-tag information. However, there are limited number of images which carry a geo-tag inforation attached. Is there a way for us to estimate location of the vast majority of street view images whitout geo-tag information? 
-This project is focuse on finding an answer for this question. In addition, if we are able to find a solution for this problem, it means that we are able to identify street view images based on their visual features. This capaility enables us to potential extract many other information from street view images.
+The idea of estimating image location usign visual features is an inherently rich subject and yet highly unexplored. 
+As compared to many other topics in image recognition, geo-recognition requires identification of more key features that remain constant across large spatial scales, making it a challenging and novel task. 
+
+It also represents an integral part of the human experience, where we ourselves possess the innate ability to extract contextual information from the environment in order to draw conclusions about our current location and surroundings. Understanding and achieving visual geo-recognition is therefore crucial towards the development of a more refined and sensitive Artificial Intelligence framework.
+
+In addition of geo-locating images, we would be able to axtract other informatino from scenery images through geo-identification.
+Street view images also carry information of propoerties, business locations, news and media that could be directly or indirectly used to add value in various industries. geo-identification can also perform as an laternative to extract geo-tag information from photos, considering the vast majoriy of images do not carry geo-tag information. 
+
+This project is focuse on finding an answer for possibility and accuracy of geo-identifying images. As a result, a Convolutional Neural Network algorithm (LocateThisView) is designed and developed to estimate the exact location of a street view image from San Francisco.
+
 
 # Method
 # Data pipeline
