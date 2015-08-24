@@ -68,7 +68,7 @@ class getview(object):
 
 
     def info2name(self, lat, lng, angle):
-        return 'lat%.6f_lng%.6fang%03d.png' %(lat,lng,angle)
+        return 'lat%.6f_lng%.6fang%s.png' %(lat,lng,angle)
 
     def name2info(self, filename):
         filename = re.findall(r"[^\W\d_]+|\d+.\d+",filename)
@@ -172,9 +172,9 @@ class getview(object):
         #getfile = urllib.URLopener()
         # print lat,longit
         link='https://maps.googleapis.com/maps/api/streetview?size=%dx%d&location=%.6f,%.6f&\
-        fov=%d&heading=%d&pitch=%d&key=AIzaSyCFs1WFdFRhxsxqFMMKLrg2q1xcuaIFc40'%(self.picsize[0],\
+        fov=%d&heading=%d&pitch=%d&source=outdoor&key=AIzaSyCFs1WFdFRhxsxqFMMKLrg2q1xcuaIFc40'%(self.picsize[0],\
          self.picsize[1], lat,lng,self.fov,angle,self.pitch)
-        print self.info2name(lat, lng, angle)
+        print self.info2name(lat, lng, self.angles)
 
         pathname = self.where2store + self.filename
         urllib.urlretrieve(link, pathname)
@@ -239,12 +239,19 @@ class getview(object):
 
         nfiles = os.stat(self.where2store).st_nlink
         successnames = []
-        for i in range(self.df_labeled.shape[0]):#nfiles+1,42867)nfiles+10001):#range(df.shape[0]):
-            [ang] = random.sample(angles, 1)
+        for i in range(self.df_labeled.shape[0]):#nfiles+ 1,42867)nfiles+10001):#range(df.shape[0]):
+            ang = self.df_labeled.f_ang[i]+30.
+            if angles =='B': 
+                ang += 180.
+            elif angles == 'R':
+                ang += 270
+            elif angles =='L':
+                ang +=90
             self.attempts = 0
             self.df_success = pd.DataFrame()
+            self.angles = angles
             # pdb.set_trace()
-            self.filename = self.info2name(self.df_labeled.lat[i],self.df_labeled.lng[i], ang)
+            self.filename = self.info2name(self.df_labeled.lat[i],self.df_labeled.lng[i], self.angles)
             if os.path.exists(self.where2store+self.filename):
                 successnames.append(self.filename)
                 self.ntries +=1
