@@ -33,7 +33,7 @@ Final model results in more than 70% of the points within 1 km radius from the t
 <body>
 
 <h2>Spectacular Mountain</h2>
-<img src="pic_mountain.jpg" alt="Mountain View" style="width:304px;height:228px;">
+<img src="https://github.com/alizaf/LocateThisView/tree/master/images/200_streets.jpg" alt="Mountain View" style="width:304px;height:228px;">
 
 </body>
 </html>
