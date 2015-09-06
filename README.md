@@ -25,6 +25,10 @@ The convolutional neaural network model is designed using three convolutional la
 The neuaral network algorithm of LocateThis View is trained using more than 30000 images and tested on a set of streetview images. I have used these test data to record and analyze the predictions of the model at the end of each epoch. Results are presented as graphs and animations, where we clearly observe how the model learns the features of each area and improves its performance. 
 Final model results in more than 70% of the points within 1 km radius from the true value (San Francisco is a 10x10 km area). 
 
+![alt text][logo]
+
+[logo]: https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 2"
+
 <a href="images/200_streets
 " target="_blank"><img src="./images/200_streets" 
 alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
