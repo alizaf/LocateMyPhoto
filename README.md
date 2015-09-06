@@ -26,9 +26,4 @@ The neuaral network algorithm of LocateThis View is trained using more than 3000
 Final model results in more than 70% of the points within 1 km radius from the true value (San Francisco is a 10x10 km area). 
 
 ![Alt text][id]
-
 [id]: https://github.com/alizaf/LocateThisView/tree/master/images/200_streets.png "Logo Title Text 2"
-
-<a href="images/200_streets
-" target="_blank"><img src="./images/200_streets" 
-alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
