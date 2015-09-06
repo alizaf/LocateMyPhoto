@@ -34,6 +34,10 @@ Final model results in more than 70% of the points within 1 km radius from the t
 " target="_blank"><img src="http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg" 
 alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
 
+<a href="https://www.youtube.com/watch?v=GU7h5_D0N9Q
+" target="_blank"><img src="http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg" 
+alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
+
 ##References
 
 1. A. R. Zamir and M. Shah. Image Geo-localization based on Multiple Nearest Neighbor Feature Matching using General- ized Graphs. IEEE Transactions on Pattern Analysis and Ma- chine Intelligence (TPAMI), 2014.
