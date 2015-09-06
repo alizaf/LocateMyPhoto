@@ -27,7 +27,7 @@ Finally, regularly distributed points are interpolated every 100 ft, and images 
 The convolutional neaural network model is designed using three convolutional layers following with two fully connected hidden layers. Nolearn, a python package developed based on Lasagne and Theano, is selected to develop the neaural network model. 
 
 ## Results
-The neuaral network algorithm of LocateThis View is trained using more than 30000 images and tested on a set of streetview images. I have used these test data to record and analyze the predictions of the model at the end of each epoch. Results are presented as graphs and animations, where we clearly observe how the model learns the features of each area and improves its performance. 
+The neuaral network algorithm of LocateThis View is trained using more than 60,000 images and tested on a set of streetview images. I have used these test data to record and analyze the predictions of the model at the end of each epoch. Results are presented as graphs and animations, where we clearly observe how the model learns the features of each area and improves its performance. 
 Final model results in more than 70% of the points within 1 km radius from the true value (San Francisco is a 10x10 km area). 
 
 <a href="https://www.youtube.com/watch?v=Zng8FVr5hGY
