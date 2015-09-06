@@ -34,7 +34,7 @@ def createarray(filepath):
         X = resize(p,(picsize[0],picsize[0]))
         return X.T.flatten().astype(np.float32)
     except:
-        print filepath
+        print 'not found:', filepath 
         return
 def getfeatures(dirpath, df_folder):
     print 'Trying to load %d files'%df_folder.shape[0]
@@ -120,7 +120,7 @@ def histogramsave(data, outpath1, color='b', bins=10):
         pass
     plt.close(fig)
 
-def load2d(test=False, cols=None):
+def load2d(pathname, csv2read, test=False, cols=None):
     [X, X_test, y, y_test] = readsplit(pathname,csv2read)
     X = X.reshape(-1, 3, picsize[0], picsize[1])
     X_test = X_test.reshape(-1, 3, picsize[0], picsize[1])

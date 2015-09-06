@@ -1,4 +1,4 @@
-from cnet5_imports import *
+from cnet6_imports import *
 from lasagne import layers
 from lasagne.updates import nesterov_momentum, sgd, momentum, adagrad
 from nolearn.lasagne import NeuralNet
@@ -65,52 +65,8 @@ class HaverSineDist(object):
             plt.savefig(outpath+'train_val_loss.png')
             plt.close(fig) 
 
-net3 = NeuralNet(
-    layers=[
-        ('input', layers.InputLayer),
-        ('conv1', layers.Conv2DLayer),
-        ('pool1', layers.MaxPool2DLayer),
-        ('dropout1', layers.DropoutLayer),  # !
-        ('conv2', layers.Conv2DLayer),
-        ('pool2', layers.MaxPool2DLayer),
-        ('dropout2', layers.DropoutLayer),  # !
-        ('conv3', layers.Conv2DLayer),
-        ('pool3', layers.MaxPool2DLayer),
-        ('dropout3', layers.DropoutLayer),  # !
-        ('hidden4', layers.DenseLayer),
-        ('dropout4', layers.DropoutLayer),  # !
-        ('hidden5', layers.DenseLayer),
-        ('output', layers.DenseLayer),
-        ],
-    input_shape=(None, 3, picsize[0], picsize[0]),
-    conv1_num_filters=32, conv1_filter_size=(5,5), pool1_pool_size=(3,3),
-    dropout1_p=0.001,  # !
-    conv2_num_filters=64, conv2_filter_size=(5,5), pool2_pool_size=(3,3),
-    dropout2_p=0.001,  # !
-    conv3_num_filters=128, conv3_filter_size=(4,4), pool3_pool_size=(3,3),
-    dropout3_p=0.001,  # !
-    # conv4_num_filters=256, conv4_filter_size=(8, 8), pool4_pool_size=(4, 4),
-    # dropout4_p=0.0006,  # !
-    hidden4_num_units=500, 
-    dropout4_p=0.012,  # !
-    hidden5_num_units=500,
-    output_num_units=2, output_nonlinearity=None,
-    # update = adagrad,
-    update_learning_rate=theano.shared(np.float32(0.00001), borrow=True),
-    update_momentum=theano.shared(np.float32(0.01), borrow=True),
-    objective_loss_function=None,
-    regression=True,
-    on_epoch_finished=[
-    AdjustVariable('update_learning_rate', start=5e-5, stop=5e-6),
-    AdjustVariable('update_momentum', start=0.0001, stop=0.3),
-    HaverSineDist('predict'),
-    ],
-    max_epochs=2000,
-    verbose=1,
-    )
 
 if __name__ == '__main__':
-
 
     picsize = [120,120]
     ip = socket.getfqdn()
@@ -130,13 +86,56 @@ if __name__ == '__main__':
 
     csv2read,SW_rdata, NE_rdata = inabox_select(SW,NE,pathname,csv2read,csv2save)
 
-    X_train, y_train, X_test, y_test = load2d()  # load 2-d data
+    X_train, y_train, X_test, y_test = load2d(pathname, csv2read)  # load 2-d data
 
     y_train_trfm = customize(y_train,SW,NE)
     y_test_trfm = customize(y_test,SW,NE)
     df_ytest = pd.DataFrame(y_test)
     df_ytest.to_csv(outpath+'y_test_df')
     dd=[]
+    net3 = NeuralNet(
+        layers=[
+            ('input', layers.InputLayer),
+            ('conv1', layers.Conv2DLayer),
+            ('pool1', layers.MaxPool2DLayer),
+            ('dropout1', layers.DropoutLayer),  # !
+            ('conv2', layers.Conv2DLayer),
+            ('pool2', layers.MaxPool2DLayer),
+            ('dropout2', layers.DropoutLayer),  # !
+            ('conv3', layers.Conv2DLayer),
+            ('pool3', layers.MaxPool2DLayer),
+            ('dropout3', layers.DropoutLayer),  # !
+            ('hidden4', layers.DenseLayer),
+            ('dropout4', layers.DropoutLayer),  # !
+            ('hidden5', layers.DenseLayer),
+            ('output', layers.DenseLayer),
+            ],
+        input_shape=(None, 3, picsize[0], picsize[0]),
+        conv1_num_filters=32, conv1_filter_size=(5,5), pool1_pool_size=(3,3),
+        dropout1_p=0.001,  # !
+        conv2_num_filters=64, conv2_filter_size=(5,5), pool2_pool_size=(3,3),
+        dropout2_p=0.001,  # !
+        conv3_num_filters=128, conv3_filter_size=(4,4), pool3_pool_size=(3,3),
+        dropout3_p=0.001,  # !
+        # conv4_num_filters=256, conv4_filter_size=(8, 8), pool4_pool_size=(4, 4),
+        # dropout4_p=0.0006,  # !
+        hidden4_num_units=500, 
+        dropout4_p=0.012,  # !
+        hidden5_num_units=500,
+        output_num_units=2, output_nonlinearity=None,
+        # update = adagrad,
+        update_learning_rate=theano.shared(np.float32(0.00001), borrow=True),
+        update_momentum=theano.shared(np.float32(0.01), borrow=True),
+        objective_loss_function=None,
+        regression=True,
+        on_epoch_finished=[
+        AdjustVariable('update_learning_rate', start=5e-5, stop=5e-6),
+        AdjustVariable('update_momentum', start=0.0001, stop=0.3),
+        HaverSineDist('predict'),
+        ],
+        max_epochs=2000,
+        verbose=1,
+        )
 
 
     print("X_train.shape == {}; X_train.min == {:.3f}; X_train.max == {:.3f}".format(
