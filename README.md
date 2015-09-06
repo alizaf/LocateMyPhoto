@@ -28,12 +28,4 @@ Final model results in more than 70% of the points within 1 km radius from the t
 ![Alt text][id]
 [id]: https://github.com/alizaf/LocateThisView/tree/master/images/200_streets.png "Logo Title Text 2"
 
-<!DOCTYPE html>
-<html>
-<body>
-
-<h2>Spectacular Mountain</h2>
-<img src="https://github.com/alizaf/LocateThisView/tree/master/images/200_streets.jpg" alt="Mountain View" style="width:304px;height:228px;">
-
-</body>
-</html>
+This is [an example](http://example.com/ "Title") inline link.
