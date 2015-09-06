@@ -15,7 +15,13 @@ This project is focuse on finding an answer for possibility and accuracy of geo-
 # Method
 # Data pipeline
 
-Images for training and testing the algorithm is taken from google street view API. I have collected and calculated lat long information of more than 600 streets ranked based on the number of registered businesses in a given street. Latitude and longitude data for intersecitons are extracted from google geolocation API (using intersection of streets as an address parameter). Finally, regularly distributed points are interpolated every 100 ft, and images with 4 different angles are scraped from google streetview API. 
+Images for training and testing the algorithm is taken from google street view API. I have collected and calculated lat long information of more than 600 streets ranked based on the number of registered businesses in a given street. Latitude and longitude data for intersecitons are extracted from google geolocation API (using intersection of streets as an address parameter). 
+
+[200 streets map](https://github.com/alizaf/LocateThisView/tree/master/images/200_street.png "Title")
+[600 streets map](https://github.com/alizaf/LocateThisView/tree/master/images/600_street.png "Title")
+
+
+Finally, regularly distributed points are interpolated every 100 ft, and images with 4 different angles are scraped from google streetview API. 
 
 #Convolutional Neaual Network model
 
@@ -25,4 +31,3 @@ The convolutional neaural network model is designed using three convolutional la
 The neuaral network algorithm of LocateThis View is trained using more than 30000 images and tested on a set of streetview images. I have used these test data to record and analyze the predictions of the model at the end of each epoch. Results are presented as graphs and animations, where we clearly observe how the model learns the features of each area and improves its performance. 
 Final model results in more than 70% of the points within 1 km radius from the true value (San Francisco is a 10x10 km area). 
 
-[an example](http://example.com/ "Title")
