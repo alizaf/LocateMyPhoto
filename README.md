@@ -27,3 +27,9 @@ Final model results in more than 70% of the points within 1 km radius from the t
 
 ![Alt text][id]
 [id]: https://github.com/alizaf/LocateThisView/tree/master/images/200_streets.png "Logo Title Text 2"
+
+<table>
+    <tr>
+        <td>Foo</td>
+    </tr>
+</table>
