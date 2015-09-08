@@ -1,7 +1,6 @@
 import matplotlib 
 matplotlib.use('Agg')
 import pandas as pd
-# import matplotlib.pyplot as plt
 import os
 from collections import Counter
 import shutil
@@ -19,6 +18,8 @@ import pdb
 from sklearn.neighbors import NearestNeighbors
 
 random.seed(100)
+
+# getview collects images from google streetview API, using preprocessed lat long point that are stored in uniform_latlng_xxxx
 class getview(object):
     """Pool Layer of a convolutional network """
     def __init__(self, rawdatafile, SW, NE, where2store,ready2serve = False):
@@ -38,6 +39,7 @@ class getview(object):
         else:
             self.simpleclean()
             splitbystreet()
+    #Preprocessing of lat-long data
     def simpleclean():
         df_latlng = self.dfraw['Business_Location'].map(lambda x: str(x).split()[-2:])
         df_lat = df_latlng.map(lambda x: x[0][1:-1])
@@ -50,33 +52,17 @@ class getview(object):
         df=df[(df.lat<NE[0]) & (df.lat>SW[0])]
         df=df[(df.lng<NE[1]) & (df.lng>SW[1])]
         self.df_latlng = df
-
-    # def splitbystreet():
-    #     dfbg = self.dfraw.groupby('BL1')
-    #     BL= df_latlng['BL'].map(lambda x: str(x).split())
-    #     df_latlng['BL1'] = [BL[i][1] if len(BL[i])>1 else 0 for i in range(len(BL)) ]
-    #     df_latlng['BL2'] = [BL[i][2] if len(BL[i])>1 else 0 for i in range(len(BL)) ]
-    #     topsts = df_latlng.groupby('BL1').count().sort('Location_ID', ascending=False)[:70]
-    #     df_latlng['BL1'] = df_latlng['BL1'].apply(lambda x: x if x in topsts.index else '')
-    #     dfgrouped = df_latlng.groupby('BL1')
-    #     for stname in topsts.index:
-    #         self.SW = 
-    #         self.NE = 
-    #         dftemp = df_latlng[df_latlng['BL1'] == stname]
-    #         self.creatdistinct(dmin, validate=False)
-    #         self.df_filt
-
-
+    #Create name of image using specified info
     def info2name(self, lat, lng, angle):
         return 'lat%.6f_lng%.6fang%s.png' %(lat,lng,angle)
-
+    # Given name, returns image info
     def name2info(self, filename):
         filename = re.findall(r"[^\W\d_]+|\d+.\d+",filename)
         nameinfo = dict()
         for i in range (len(filename)-1):
             nameinfo[filename[i]] = filename[i+1]
         return nameinfo
-
+    # Make model limited to smaller area defined by SWslice and NEslice
     def slicepics(self, pathname,  SWslice, NEslice, newpath = None):
         onlyfiles = [ f for f in listdir(pathname) if (isfile(join(pathname,f))) & (len(f)>=31) ]
         validfiles = [f for f in onlyfiles if (float(f[3:12])<NEslice[0]) & (float(f[3:12])>SWslice[0])
@@ -88,7 +74,7 @@ class getview(object):
 
         self.pics4slice = validfiles
 
-    #function that gets list of file names and return dataframe with lat lng as columns
+    # Gets list of file names and return dataframe with lat lng as columns
     def filenameplot(filenames,plot = 0):
         latlist = [float(filenames[i][3:12]) for i in range(len(filenames))]
         lnglist = [float(filenames[i][16:27]) for i in range(len(filenames))]
@@ -99,6 +85,7 @@ class getview(object):
         if plot == 1:
             df.plot('lng','lat',kind='scatter',s = 0.3, figsize= [5,5])
         return df
+    # converting lat long distance to actual distance (km)
     def haversine(self,lon1, lat1, lon2, lat2):
         """
         Calculate the great circle distance between two points 
@@ -113,6 +100,7 @@ class getview(object):
         c = 2 * asin(sqrt(a)) 
         km = 6367 * c
         return km
+    # Regularizing request points 
     def creatdistinct(self,dmin,validate=False):
         self.validate = validate
         self.dmin = dmin
@@ -141,14 +129,11 @@ class getview(object):
             meshsiz = [int(dx/dmin),int(dy/dmin)]
             latlinspace = np.linspace(self.SW[0],self.NE[0],meshsiz[0]+1)
             lnglinspace = np.linspace(self.SW[1],self.NE[1],meshsiz[1]+1)
-            # pdb.set_trace()
             self.df_filt = pd.DataFrame(np.empty([1,len(df.columns)]), columns=[df.columns])
             self.df_alter = pd.DataFrame(np.empty([1,len(df.columns)]), columns=[df.columns])
-            # self.df_filt.columns = [['lat','lng']]
             self.df_filt.drop(0,inplace=True)
             self.df_alter.drop(0,inplace=True)
             mesh = np.array(np.meshgrid(latlinspace, lnglinspace))
-            # self.df_filt['label'] = 0
             for i in range(meshsiz[1]):
                 if i>0 :print i*meshsiz[0]+j,'out of', meshsiz[0]*meshsiz[1]
                 for j in range(meshsiz[0]):
@@ -156,21 +141,14 @@ class getview(object):
                     y_sw = mesh[:,i,j][0]
                     x_ne = mesh[:,i+1,j+1][1]
                     x_sw = mesh[:,i,j][1]
-                    # pdb.set_trace()
                     self.df_alter.loc[i*(meshsiz[0]-1)+j] = [np.mean([y_ne,y_sw]), np.mean([x_ne,x_sw])]
                     mask = (df.lat<mesh[:,i+1,j+1][0]) & (df.lat>mesh[:,i,j][0]) \
                     & (df.lng<mesh[:,i+1,j+1][1]) & (df.lng>mesh[:,i,j][1])
                     ixlist = df[mask]
-                    # pdb.set_trace()
-                    # for ii in ixlist.index:
                     if ixlist.shape[0] > 0:
                         self.df_filt.loc[i*(meshsiz[0]-1)+j] = df.loc[ixlist.index[0]]
-        # self.df_filt.plot('lng','lat',kind='scatter',figsize=[15,10],s=0.5)
-        # plt.show()
-
+    # single queries to API
     def single_query(self, lat, lng, angle, label, ii):
-        #getfile = urllib.URLopener()
-        # print lat,longit
         link='https://maps.googleapis.com/maps/api/streetview?size=%dx%d&location=%.6f,%.6f&\
         fov=%d&heading=%d&pitch=%d&source=outdoor&key=AIzaSyCFs1WFdFRhxsxqFMMKLrg2q1xcuaIFc40'%(self.picsize[0],\
          self.picsize[1], lat,lng,self.fov,angle,self.pitch)
@@ -181,46 +159,37 @@ class getview(object):
         if os.stat(pathname).st_size in self.errsize:
             os.remove(pathname)
             print 'attempt:', self.attempts
-            # ntries += 1
-            # return nsucs, ntries
         else:
             try:
                 print '%d success!:%d %d Cum Success = %.3f'%(ii,self.nsucs,self.ntries,float(self.nsucs)/self.ntries)
             except ZeroDivisionError:
                 print '%d success! Cum Success = %.3f' %(ii, 0)
             self.success = True
-            # return nsucs, ntries
+
+    #location based labeling of images for classification
     def relabel(self,dfl):
         latlinspace = np.linspace(self.SW[0],self.NE[0],self.meshsize[0]+1)
         lnglinspace = np.linspace(self.SW[1],self.NE[1],self.meshsize[1]+1)
         mesh = np.array(np.meshgrid(latlinspace, lnglinspace))
-        # print mesh
         self.df_goal['label'] = 0
         for i in range(self.meshsize[0]):
             for j in range(self.meshsize[1]):
-                # pdb.set_trace()
 
                 mask = (self.df_goal.lat<mesh[:,i+1,j+1][0]) & (self.df_goal.lat>mesh[:,i,j][0]) \
                 & (self.df_goal.lng<mesh[:,i+1,j+1][1]) & (self.df_goal.lng>mesh[:,i,j][1])
                 ixlist = self.df_goal[mask]
-                # if ixlist.shape[0] > 0:
                 self.current_label += 1
                 for ii in ixlist.index:
-                    # pdb.set_trace()
-                    # print self.current_label# (i*(self.meshsize[0]-1))+j + 1
-                    self.df_goal.loc[ii,'label'] = self.current_label#(i*(self.meshsize[0]-1))+j + 1
-    
+                    self.df_goal.loc[ii,'label'] = self.current_label
+    # Creates requests and collects images
     def query(self,meshsize, picsize,angles,errsize,nattempts,fov,pitch,full = False):
-        # df = pd.read_csv('processed.csv')
-        # df = df.drop(0,axis=0)
         self.errsize = errsize
         self.meshsize = meshsize
         self.picsize = picsize
         self.current_label = 0
         self.pitch = pitch
         self.fov = fov
-        # latlinspace = np.linspace(self.SW[0],self.NE[0],self.meshsize[0]+1)
-        # lnglinspace = np.linspace(self.SW[1],self.NE[1],self.meshsize[1]+1)
+
         if self.ready2serve:
             self.df_goal = self.df_latlng
         elif full:
@@ -239,7 +208,7 @@ class getview(object):
 
         nfiles = os.stat(self.where2store).st_nlink
         successnames = []
-        for i in range(self.df_labeled.shape[0]):#nfiles+ 1,42867)nfiles+10001):#range(df.shape[0]):
+        for i in range(self.df_labeled.shape[0]):
             ang = self.df_labeled.f_ang[i]+30.
             if angles =='B': 
                 ang += 180.
@@ -250,14 +219,12 @@ class getview(object):
             self.attempts = 0
             self.df_success = pd.DataFrame()
             self.angles = angles
-            # pdb.set_trace()
             self.filename = self.info2name(self.df_labeled.lat[i],self.df_labeled.lng[i], self.angles)
             if os.path.exists(self.where2store+self.filename):
                 successnames.append(self.filename)
                 self.ntries +=1
                 self.nsucs +=1
                 print self.nsucs, 'already exists:', self.filename
-                # pdb.set_trace()
             else:
                 eps = self.dmin/100
                 self.success = False
@@ -274,8 +241,6 @@ class getview(object):
                         self.ntries +=1
                         print 'could not retrive:  %s' %self.filename
                 time.sleep(0.0)
-            # print len(successnames)
-        # pdb.set_trace()
         self.df_labeled['successnames'] = successnames
         nexisting = 0
         self.df_folder= pd.DataFrame()
