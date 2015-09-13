@@ -31,7 +31,7 @@ The neuaral network algorithm of LocateThis View is trained using more than 60,0
 Final model results in more than 70% of the points within 1 km radius from the true value (San Francisco is a 10x10 km area). 
 Distance error and histogram of error is animated for 300 test points that are tracked during the training of the CNN network:
 
-<img src="notes_slides/Distance_error.mp4">
+<vid src="notes_slides/Distance_error.mp4">
 
 <a href="https://www.youtube.com/watch?v=Zng8FVr5hGY
 " target="_blank"><img src="http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg" 
