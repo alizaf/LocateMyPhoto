@@ -33,11 +33,11 @@ Distance error and histogram of error is animated for 300 test points that are t
 
 <a href="https://www.youtube.com/watch?v=Zng8FVr5hGY
 " target="_blank"><img src="notes_slides/Hist_error.png" 
-alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
+alt="IMAGE ALT TEXT HERE" width="480" height="360" border="10" /></a>
 
 <a href="https://www.youtube.com/watch?v=GU7h5_D0N9Q
 " target="_blank"><img src="notes_slides/Dist_error.png" 
-alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
+alt="IMAGE ALT TEXT HERE" width="480" height="360" border="10" /></a>
 
 ##References
 
