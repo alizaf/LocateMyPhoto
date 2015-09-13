@@ -16,8 +16,8 @@ This project is focuse on finding an answer for possibility and accuracy of geo-
 
 Images for training and testing the algorithm is taken from google street view API. I have collected and calculated lat long information of more than 600 streets ranked based on the number of registered businesses in a given street. Latitude and longitude data for intersecitons are extracted from google geolocation API (using intersection of streets as an address parameter). 
 
-<img src="images/200_streets.png", width="480" height="480">
-<img src="images/600_streets.png", width="480" height="480">
+<img src="images/200_streets.png", width="600" height="600">
+<img src="images/600_streets.png", width="600" height="600">
 
 
 Finally, regularly distributed points are interpolated every 100 ft, and images with 4 different angles are scraped from google streetview API. 
